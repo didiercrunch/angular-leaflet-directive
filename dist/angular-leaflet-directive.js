@@ -24,6 +24,7 @@
           layers: '=layers',
           controls: '=controls',
           decorations: '=decorations',
+          scale: '@scale',
           eventBroadcast: '=eventBroadcast'
         },
         transclude: true,
@@ -59,6 +60,13 @@
           }
           // Create the Leaflet Map Object with the options
           var map = new L.Map(element[0], leafletMapDefaults.getMapCreationDefaults(attrs.id));
+          if (scope.scale && scope.scale.toLowerCase() in {
+              'yes': 1,
+              'true': 1,
+              'on': 1
+            }) {
+            L.control.scale().addTo(map);
+          }
           _leafletMap.resolve(map);
           if (!isDefined(attrs.center)) {
             map.setView([
